@@ -1,0 +1,17 @@
+{
+  "name": "de-emmaculate-college",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Joseph Agbonifo",
+  "license": "ISC",
+  "type": "module",
+  "description": "A modern and dynamic website for De Emmaculate College, showcasing academic programs, events, and resources for students and parents.",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2"
+  }
+}
