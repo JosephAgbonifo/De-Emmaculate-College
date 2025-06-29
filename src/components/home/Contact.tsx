@@ -33,11 +33,10 @@ export default function Contact() {
           className="block col-span-2 text-sm hide-scrollbar resize-none w-4/5 bg-bluebg border-0 focus:outline-0 rounded m-auto h-20 p-5 my-5 "
           name="message"
           onChange={(e) => setMessage(e.target.value)}
+          value={message}
           placeholder="Message"
           required
-        >
-          {message}
-        </textarea>
+        />
         <input
           type="submit"
           className="block col-span-2 w-4/5 bg-text text-bluebg border-0 focus:outline-0 rounded m-auto h-10 hover:bg-gray-900 my-5 "

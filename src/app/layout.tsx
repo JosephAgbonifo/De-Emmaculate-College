@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Roboto } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/general/Header";
-import Footer from "@/components/general/Footer";
+import Header from "@/src/components/general/Header";
+import Footer from "@/src/components/general/Footer";
 
 const poppins = Poppins({
   variable: "--font-poppins",

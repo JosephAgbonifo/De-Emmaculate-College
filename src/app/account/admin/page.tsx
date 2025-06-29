@@ -1,4 +1,5 @@
-import Topbar from "@/components/admin/Topbar";
+"use client";
+import Topbar from "@/src/components/admin/Topbar";
 import Link from "next/link";
 import React from "react";
 import { MdNoteAlt } from "react-icons/md";
@@ -6,27 +7,30 @@ import { FaPenFancy, FaLockOpen, FaBell } from "react-icons/fa";
 import { GrOverview } from "react-icons/gr";
 import { IoIosSwitch } from "react-icons/io";
 import { GiAstronautHelmet } from "react-icons/gi";
+import { useUserStore } from "@/stores/useUserStore";
 
-const page = () => {
+export default function Page() {
+  const user = useUserStore((state) => state.user);
+
   return (
     <div className="md:pt-20">
-      <Topbar />
+      <Topbar name={user?.fullname || "unauthorised"} />
       <div className="min-h-screen">
         <div className="md:w-[70%] w-full p-10  m-auto mt-10 grid md:grid-cols-3 gap-10 grid-cols-2">
           <Actions
-            href="/staffreg"
+            href="./admin/staffreg"
             icon={<MdNoteAlt />}
             text="Register New Staff"
           />
           <Actions
-            href="/staffreg"
+            href="./admin/studentreg"
             icon={<MdNoteAlt />}
             text="Register New Student"
           />
           <Actions href="/staffreg" icon={<FaPenFancy />} text="Edit Results" />
           <Actions href="/staffreg" icon={<GrOverview />} text="View Results" />
           <Actions
-            href="/staffreg"
+            href="./admin/newterm"
             icon={<FaLockOpen />}
             text="Open new term"
           />
@@ -54,7 +58,7 @@ const page = () => {
       </div>
     </div>
   );
-};
+}
 
 function Actions({
   href,
@@ -77,5 +81,3 @@ function Actions({
     </Link>
   );
 }
-
-export default page;
