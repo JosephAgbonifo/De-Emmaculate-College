@@ -1,7 +1,8 @@
 // src/utils/api.ts
 import axios from "axios";
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:8765/api";
+const BASE_URL =
+  process.env.BASE_URL || "https://emmaculatecollege.com.ng/test/api/api";
 
 // Inline token getter for client-side
 const getToken = (): string | null => {
