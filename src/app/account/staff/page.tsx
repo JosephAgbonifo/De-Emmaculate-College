@@ -90,7 +90,7 @@ export default function StaffPage() {
   );
 }
 
-export function StaffMenu({ href, text }: { href: string; text: string }) {
+function StaffMenu({ href, text }: { href: string; text: string }) {
   return (
     <Link
       href={href || "./"}
