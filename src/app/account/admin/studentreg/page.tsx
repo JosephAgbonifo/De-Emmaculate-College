@@ -42,15 +42,20 @@ export default function StaffRegistrationPage() {
     fd.append("phone", formData.phone);
     fd.append("address", formData.address);
     fd.append("class", formData.class);
-    fd.append("phone", formData.phone);
     fd.append("parentName", formData.parentName);
     fd.append("dateOfBirth", formData.dateOfBirth);
     if (formData.image) fd.append("image", formData.image);
 
     try {
-      const data = await postRequest("/staff", fd); // fd is your FormData
+      const data = await postRequest("/student", fd); // fd is your FormData
       console.log("Successful:", data);
-      setSuccess("Staff created successfully");
+      setSuccess(
+        "Student created successfully with pin " +
+          data.pin +
+          "  and registration number " +
+          data.reg_number +
+          " please save this information for login"
+      );
       setError("");
     } catch (err: unknown) {
       console.error("Submission failed:", err);
@@ -66,7 +71,10 @@ export default function StaffRegistrationPage() {
 
   return (
     <div className="md:pt-20">
-      <Topbar name={user?.fullname || "unauthorised"} />
+      <Topbar
+        name={user?.fullname || "unauthorised"}
+        role={user?.role || "unauthorised"}
+      />
 
       <div className="min-h-screen p-4 md:w-[60%] mx-auto mt-10">
         <h1 className="text-xl font-bold mb-6">Register New Staff</h1>
@@ -93,14 +101,22 @@ export default function StaffRegistrationPage() {
             className="border p-2 rounded"
             required
           />
-          <input
+          <select
             name="class"
             value={formData.class}
             onChange={handleChange}
-            placeholder="Class"
             className="border p-2 rounded"
             required
-          />
+          >
+            <option value="">Select Gender</option>
+            <option value="JSS1">JSS 1</option>
+            <option value="JSS2">JSS 2</option>
+            <option value="JSS3">JSS 3</option>
+            <option value="SSS1">SSS 1</option>
+            <option value="SSS2">SSS 2</option>
+            <option value="SSS3">SSS 3</option>
+          </select>
+
           <input
             name="parentName"
             value={formData.parentName}

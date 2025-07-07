@@ -38,3 +38,25 @@ export const postRequest = async (
     throw err;
   }
 };
+
+export const getRequest = async (endpoint: string, options = {}) => {
+  const token = getToken();
+  console.log("token", token);
+  try {
+    const res = await axios.get(`${BASE_URL}${endpoint}`, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      ...options,
+    });
+
+    return res.data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw err.response?.data || err.message;
+    }
+    throw err;
+  }
+};

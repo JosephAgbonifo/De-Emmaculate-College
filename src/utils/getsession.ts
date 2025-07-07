@@ -14,7 +14,7 @@ export const getSession = async (): Promise<SimpleSession> => {
       withCredentials: true, // needed for cookie-based auth
     });
 
-    const { session, term } = response.data?.data;
+    const { session, term } = response.data;
 
     return { session, term };
   } catch (error) {

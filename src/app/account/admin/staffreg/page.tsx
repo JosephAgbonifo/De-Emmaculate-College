@@ -52,6 +52,17 @@ export default function StaffRegistrationPage() {
       const data = await postRequest("/staff", fd); // fd is your FormData
       console.log("Successful:", data);
       setSuccess("Staff created successfully");
+      setFormData({
+        fullname: "",
+        sex: "",
+        email: "",
+        image: null,
+        address: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        category: "",
+      });
       setError("");
     } catch (err: unknown) {
       console.error("Submission failed:", err);
@@ -67,7 +78,10 @@ export default function StaffRegistrationPage() {
 
   return (
     <div className="md:pt-20">
-      <Topbar name={user?.fullname || "unauthorised"} />
+      <Topbar
+        name={user?.fullname || "unauthorised"}
+        role={user?.role || "unauthorised"}
+      />
 
       <div className="min-h-screen p-4 md:w-[60%] mx-auto mt-10">
         <h1 className="text-xl font-bold mb-6">Register New Staff</h1>

@@ -34,7 +34,10 @@ export default function StaffRegistrationPage() {
 
   return (
     <div className="md:pt-20">
-      <Topbar name={user?.fullname || "unauthorised"} />
+      <Topbar
+        role={user?.role || "unauthorised"}
+        name={user?.fullname || "unauthorised"}
+      />
 
       <div className="min-h-screen p-4 md:w-[60%] mx-auto mt-10">
         <h1 className="text-xl font-bold mb-6">Update Term / Session</h1>

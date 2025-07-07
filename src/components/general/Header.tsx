@@ -5,8 +5,10 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoMenu } from "react-icons/io5";
+import { useUserStore } from "@/stores/useUserStore";
 
 const Header = () => {
+  const user = useUserStore((state) => state.user);
   const [showBg, setShowBg] = useState(false);
   const [menu, toggleMenu] = useState(false);
   useEffect(() => {
@@ -25,7 +27,7 @@ const Header = () => {
 
   return (
     <div
-      className={`md:fixed z-50 w-screen p-5 text-transparent  md:px-20 md:h-24 h-20 flex items-center transition-all duration-700 ${
+      className={`no-print md:fixed z-50 w-screen p-5 text-transparent  md:px-20 md:h-24 h-20 flex items-center transition-all duration-700 ${
         showBg ? "bg-white shadow-lg" : ""
       }`}
     >
@@ -47,7 +49,11 @@ const Header = () => {
       <div className="w-40% hidden md:block">
         <HeaderLink link="/" text="Home" />
         <HeaderLink link="/about" text="About" />
-        <HeaderLink link="/signin" text="signin" />
+        {user?.email ? (
+          <HeaderLink link="/signout" text="signout" />
+        ) : (
+          <HeaderLink link="/signin" text="signin" />
+        )}
         <HeaderLink link="/login" text="Admissions" />
         <HeaderLink link="/support" text="contact us" />
       </div>

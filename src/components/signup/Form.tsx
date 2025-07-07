@@ -5,8 +5,10 @@ import { Input } from "../ui/input";
 import { cn } from "@/src/lib/utils";
 import { postRequest } from "@/src/utils/api";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/stores/useUserStore";
 
 export function SignupFormDemo() {
+  const { setUser } = useUser();
   const router = useRouter();
   const [acct, setAcct] = useState("student");
   const [error, setError] = useState<{ message?: string }>({});
@@ -43,12 +45,11 @@ export function SignupFormDemo() {
 
     try {
       const data = await postRequest(endpoint, formDetails);
-      console.log("Login successful:", data);
-      if (acct === "student") {
-        router.push("/account/studentdashboard");
-      } else if (acct === "staff") {
-        router.push("/account/admin");
-      }
+      setUser(data.user);
+
+      router.push("/account");
+
+      // Set user data in Zustand store
     } catch (error: unknown) {
       console.error("Login failed:", error);
       // Safely extract error message if available
