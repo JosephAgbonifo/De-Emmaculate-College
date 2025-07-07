@@ -72,15 +72,15 @@ export default function StaffPage() {
         )}
 
         <div className="mt-6">
-          <Tabs
+          <StaffMenu
             href={user?.status === "1" ? "./staff/editresult" : "#"}
             text="Edit Result"
           />
-          <Tabs
+          <StaffMenu
             href={user?.status === "1" ? "./notifications" : "#"}
             text="Notifications"
           />
-          <Tabs
+          <StaffMenu
             href={user?.status === "1" ? "./msg" : "#"}
             text="Message Admin"
           />
@@ -90,7 +90,7 @@ export default function StaffPage() {
   );
 }
 
-export function Tabs({ href, text }: { href: string; text: string }) {
+export function StaffMenu({ href, text }: { href: string; text: string }) {
   return (
     <Link
       href={href || "./"}
