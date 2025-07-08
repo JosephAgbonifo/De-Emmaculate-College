@@ -2,7 +2,7 @@ import React from "react";
 
 const More = () => {
   return (
-    <div>
+    <div id="about">
       <h3 className="my-10 text-center text-cta text-2xl font-poppins font-bold">
         Our Vision
       </h3>

@@ -1,24 +1,83 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
-    <div className="p-10 bg-text text-bluebg no-print">
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-10">
+    <footer className="bg-text text-bluebg p-10 no-print">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
         <div>
-          <h5 className="font-bold font-poppins font-lg">Address</h5>
-          <p>5 ibikunle street, Maidan, Mile 12, Lagos state, Nigeria</p>
+          <h5 className="text-lg font-bold font-poppins mb-2">🏫 Address</h5>
+          <p>5 Ibikunle Street, Maidan, Mile 12, Lagos State, Nigeria</p>
         </div>
+
         <div>
-          <h5 className="font-bold font-poppins font-lg">Contact Us</h5>
+          <h5 className="text-lg font-bold font-poppins mb-2">📞 Contact Us</h5>
           <p>
-            <span className="font-bold">Tel:</span> +23490 3507 8430
+            <strong>Phone:</strong>{" "}
+            <a href="tel:+2349035078430" className="hover:underline">
+              +234 903 507 8430
+            </a>
           </p>
           <p>
-            <span className="font-bold">Email:</span> emmaculate@gmail.com
+            <strong>Email:</strong>{" "}
+            <a href="mailto:emmaculate@gmail.com" className="hover:underline">
+              emmaculate@gmail.com
+            </a>
           </p>
+        </div>
+
+        <div>
+          <h5 className="text-lg font-bold font-poppins mb-2">
+            🔗 Quick Links
+          </h5>
+          <ul className="space-y-1">
+            <li>
+              <Link href="/" className="hover:underline">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link href="#about" className="hover:underline">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/admission" className="hover:underline">
+                Admissions
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:underline">
+                Contact
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
-      <p className="text-center pt-10">
-        &copy; Emmaculate College {new Date().getFullYear()}
-      </p>
-    </div>
+
+      <div className="mt-10 flex flex-col md:flex-row justify-between items-center text-sm text-bluebg border-t border-bluebg/30 pt-6">
+        <p>
+          &copy; {new Date().getFullYear()} Emmaculate College. All rights
+          reserved.
+        </p>
+        <div className="flex space-x-4 mt-4 md:mt-0">
+          <Link href="#" target="_blank" className="hover:text-white">
+            Facebook
+          </Link>
+          <Link
+            href="https://wa.me/2347064369964"
+            target="_blank"
+            className="hover:text-white"
+          >
+            WhatsApp
+          </Link>
+          <Link
+            href="mailto:emmaculatecollege@gmail.com"
+            className="hover:text-white"
+          >
+            Email
+          </Link>
+        </div>
+      </div>
+    </footer>
   );
 }

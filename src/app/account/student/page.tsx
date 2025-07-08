@@ -68,7 +68,7 @@ export default function StudentPage() {
           <StudentMenu
             href={
               user?.reg_number
-                ? `./student/result/${user.reg_number.replace(/\//g, "-")}`
+                ? `./student/results/${user.reg_number.replace(/\//g, "-")}`
                 : "/"
             }
             text="View Results"
