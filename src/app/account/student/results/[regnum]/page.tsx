@@ -96,12 +96,6 @@ export default function ResultsPage({ params }: ResultsPageProps) {
   const resultRef = useRef<HTMLDivElement>(null); // 👈 add ref here
 
   useEffect(() => {
-    if (!session || !term) {
-      setError("Missing session or term");
-      setLoading(false);
-      return;
-    }
-
     const resultCheck = async () => {
       try {
         const data = await getRequest("/session");
