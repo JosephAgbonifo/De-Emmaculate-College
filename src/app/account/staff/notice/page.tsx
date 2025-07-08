@@ -13,11 +13,12 @@ export default function SendNoticePage() {
     e.preventDefault();
 
     try {
-      const res = await postRequest("/admin/notice", {
+      await postRequest("/admin/notice", {
         receiver_email: "admin",
         sender_email: user?.email,
         message: message, // again, assuming backend expects this
       });
+
       setSuccess("Notice sent successfully");
       setMessage("");
       setError("");
