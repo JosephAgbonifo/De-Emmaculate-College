@@ -185,7 +185,7 @@ export default function ResultsPage({ params }: ResultsPageProps) {
           <div className="col-span-1 flex justify-center">
             {student?.img && (
               <Image
-                src={`http://www.emmaculatecollege.com.ng/${student.img}`}
+                src={`http://www.emmaculatecollege.com.ng/api/uploads/${student.img}`}
                 alt="Student"
                 height={80}
                 width={80}
