@@ -46,8 +46,13 @@ export function SignupFormDemo() {
     try {
       const data = await postRequest(endpoint, formDetails);
       setUser(data.user);
-
-      router.push("/account");
+      if (data.user.role === "student") {
+        router.push("/account/student");
+      } else if (data.user.role === "staff") {
+        router.push("/account/student");
+      } else {
+        router.push("/account/admin");
+      }
 
       // Set user data in Zustand store
     } catch (error: unknown) {

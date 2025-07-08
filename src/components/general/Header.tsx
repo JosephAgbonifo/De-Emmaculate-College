@@ -7,6 +7,11 @@ import { useEffect, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { useUserStore } from "@/stores/useUserStore";
 
+function signout() {
+  useUserStore.getState().clearUser();
+  window.location.href = "/signin";
+}
+
 const Header = () => {
   const user = useUserStore((state) => state.user);
   const [showBg, setShowBg] = useState(false);
@@ -54,7 +59,6 @@ const Header = () => {
         ) : (
           <HeaderLink link="/signin" text="signin" />
         )}
-        <HeaderLink link="/login" text="Admissions" />
         <HeaderLink link="/support" text="contact us" />
       </div>
 
@@ -65,8 +69,11 @@ const Header = () => {
       >
         <HeaderLink link="/" text="Home" />
         <HeaderLink link="/about" text="About" />
-        <HeaderLink link="/signin" text="signin" />
-        <HeaderLink link="/login" text="Admissions" />
+        {user?.email ? (
+          <HeaderLink link="/signout" text="signout" />
+        ) : (
+          <HeaderLink link="/signin" text="signin" />
+        )}
         <HeaderLink link="/support" text="contact us" />
       </div>
     </div>
@@ -79,6 +86,12 @@ function HeaderLink({ link, text }: { link: string; text: string }) {
   return (
     <Link
       href={link}
+      onClick={(e) => {
+        if (link === "/signout") {
+          e.preventDefault(); // Stop normal navigation
+          signout(); // Call your function
+        }
+      }}
       className={`block md:inline-block z-50 text-md p-3 m-2 text-cta hover:bg-bluebg rounded-lg ${
         isActive ? "bg-bluebg" : ""
       }`}
