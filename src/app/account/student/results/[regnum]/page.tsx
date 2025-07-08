@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { use } from "react"; // Used to unwrap the `params` promise passed to server component
-import { useRouter } from "next/navigation";
+import { use } from "react";
 import { getRequest, postRequest } from "@/src/utils/api";
 import Image from "next/image";
 import { FaEnvelope, FaMapPin, FaPhone } from "react-icons/fa";
@@ -81,19 +80,16 @@ interface Student {
 
 export default function ResultsPage({ params }: ResultsPageProps) {
   const { regnum } = use(params);
-  const router = useRouter();
 
   const [session, setSession] = useState("");
   const [term, setTerm] = useState("");
-  const [check, setCheck] = useState("");
-
   const [results, setResults] = useState<Result[]>([]);
   const [student, setStudent] = useState<Student | null>(null);
   const [comments, setComment] = useState({ tc: "", pc: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const resultRef = useRef<HTMLDivElement>(null); // 👈 add ref here
+  const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const resultCheck = async () => {
@@ -101,14 +97,12 @@ export default function ResultsPage({ params }: ResultsPageProps) {
         const data = await getRequest("/session");
         setSession(data.data.session);
         setTerm(data.data.term);
-        setCheck(data.data.resultcheck);
-        if (!check) {
+        if (!data.data.resultcheck) {
           setError("Result Checking not yet enabled");
-          return;
+          throw new Error("result checking not enabled");
         }
       } catch {
         setError("Unable to get session details");
-        return;
       }
     };
 
@@ -129,13 +123,11 @@ export default function ResultsPage({ params }: ResultsPageProps) {
         setLoading(false);
       }
     };
-    resultCheck();
-    fetchResults();
-  }, [regnum, session, term, router, check]);
 
-  const handlePrint = () => {
-    window.print();
-  };
+    resultCheck().then(fetchResults);
+  }, [regnum, session, term]);
+
+  const handlePrint = () => window.print();
 
   if (loading) return <p>Loading results...</p>;
   if (error) return <p>{error}</p>;
@@ -160,7 +152,7 @@ export default function ResultsPage({ params }: ResultsPageProps) {
       </div>
       <div
         ref={resultRef}
-        className="printable w-[210mm] h-[297mm] bg-[#ffffff] shadow-md mx-auto my-4 p-8 text-head"
+        className="printable w-[210mm] h-[297mm] bg-white shadow-md mx-auto my-4 p-8 text-head"
       >
         <div className="grid grid-cols-8 items-center gap-4 mb-10">
           <div className="col-span-1 flex justify-center">
@@ -207,8 +199,8 @@ export default function ResultsPage({ params }: ResultsPageProps) {
           EXAMINATION RESULT SHEET
         </p>
 
-        <div className="grid grid-cols-2 gap-2 text-sm text-[#032e15]">
-          <div className="flex items-center justify-center col-span-2">
+        <div className="grid grid-cols-2 gap-2 text-sm text-[#032e15] my-4">
+          <div className="flex items-center col-span-2 justify-center">
             <p className="mr-5 font-bold font-poppins">Name</p>
             <p className="border-b">{student?.fullname}</p>
           </div>
@@ -327,11 +319,11 @@ export default function ResultsPage({ params }: ResultsPageProps) {
               <span className="font-bold">Principal&apos;s Signature: </span>
               <span className="border-b flex-1 mx-5 relative">
                 <Image
-                  src={"/images/stamp.png"}
-                  width={200}
-                  height={100}
+                  src="/images/stamp.png"
+                  width={100}
+                  height={50}
                   alt="Principal's signature"
-                  className="absolute -top-28"
+                  className="absolute left-0 top-[-30px]"
                 />
               </span>
             </p>
