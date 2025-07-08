@@ -45,7 +45,7 @@ const Hero = () => {
   return (
     <>
       <div
-        className={` bg-cover  via-bluebg to-secondary h-screen w-screen md:flex items-center pt-5 md:p-0`}
+        className={` bg-cover  via-[#e0fbfc] to-secondary h-screen w-screen md:flex items-center pt-5 md:p-0`}
         style={{
           backgroundImage: `url(${slides[currentSlide].image})`,
           backgroundColor: "rgba(0,0,0,0.7)",
