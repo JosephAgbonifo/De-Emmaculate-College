@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { useUserStore } from "@/stores/useUserStore";
 
@@ -15,20 +14,27 @@ function signout() {
 const Header = () => {
   const user = useUserStore((state) => state.user);
   const [showBg, setShowBg] = useState(false);
-  const [menu, toggleMenu] = useState(false);
+  const [menu, setMenu] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      // Only apply on desktop (min-width: 768px)
       if (window.innerWidth >= 768) {
         setShowBg(window.scrollY > 30);
       } else {
-        setShowBg(false); // optional: hide on mobile if needed
+        setShowBg(false);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Closes the mobile menu on nav item click
+  const handleMenuClick = () => {
+    if (window.innerWidth < 768) {
+      setMenu(false);
+    }
+  };
 
   return (
     <div
@@ -46,20 +52,30 @@ const Header = () => {
       <h1 className=" md:text-lg font-poppins font-bold text-head flex-1">
         De Emmaculate College
       </h1>
+
       <div className="flex items-center mr-5 text-lg md:hidden">
-        <button onClick={() => toggleMenu(!menu)} className="text-2xl text-cta">
+        <button onClick={() => setMenu(!menu)} className="text-2xl text-cta">
           <IoMenu />
         </button>
       </div>
+
       <div className="w-40% hidden md:block">
-        <HeaderLink link="/" text="Home" />
-        <HeaderLink link="/about" text="About" />
+        <HeaderLink link="/" text="Home" onClick={handleMenuClick} />
+        <HeaderLink link="/about" text="About" onClick={handleMenuClick} />
         {user?.email ? (
-          <HeaderLink link="/signout" text="signout" />
+          <HeaderLink
+            link="/signout"
+            text="signout"
+            onClick={handleMenuClick}
+          />
         ) : (
-          <HeaderLink link="/signin" text="signin" />
+          <HeaderLink link="/signin" text="signin" onClick={handleMenuClick} />
         )}
-        <HeaderLink link="/support" text="contact us" />
+        <HeaderLink
+          link="/support"
+          text="contact us"
+          onClick={handleMenuClick}
+        />
       </div>
 
       <div
@@ -67,33 +83,51 @@ const Header = () => {
           menu ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <HeaderLink link="/" text="Home" />
-        <HeaderLink link="/about" text="About" />
+        <HeaderLink link="/" text="Home" onClick={handleMenuClick} />
+        <HeaderLink link="/about" text="About" onClick={handleMenuClick} />
         {user?.email ? (
-          <HeaderLink link="/signout" text="signout" />
+          <HeaderLink
+            link="/signout"
+            text="signout"
+            onClick={handleMenuClick}
+          />
         ) : (
-          <HeaderLink link="/signin" text="signin" />
+          <HeaderLink link="/signin" text="signin" onClick={handleMenuClick} />
         )}
-        <HeaderLink link="/support" text="contact us" />
+        <HeaderLink
+          link="/support"
+          text="contact us"
+          onClick={handleMenuClick}
+        />
       </div>
     </div>
   );
 };
 
-function HeaderLink({ link, text }: { link: string; text: string }) {
+function HeaderLink({
+  link,
+  text,
+  onClick,
+}: {
+  link: string;
+  text: string;
+  onClick?: () => void;
+}) {
   const pathname = usePathname();
   const isActive = pathname === link;
+
   return (
     <Link
       href={link}
       onClick={(e) => {
         if (link === "/signout") {
-          e.preventDefault(); // Stop normal navigation
-          signout(); // Call your function
+          e.preventDefault();
+          signout();
         }
+        onClick?.(); // Close menu if needed
       }}
-      className={`block md:inline-block z-50 text-md p-3 m-2 text-cta hover:bg-bluebg rounded-lg ${
-        isActive ? "bg-bluebg" : ""
+      className={`block md:inline-block z-50 text-md p-3 m-2 text-cta hover:bg-[#e0fbfc] rounded-lg ${
+        isActive ? "bg-[#e0fbfc]" : ""
       }`}
     >
       {text}
