@@ -92,40 +92,39 @@ export default function ResultsPage({ params }: ResultsPageProps) {
   const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const resultCheck = async () => {
+    const resultCheckAndFetch = async () => {
       try {
-        const data = await getRequest("/session");
-        setSession(data.data.session);
-        setTerm(data.data.term);
-        if (!data.data.resultcheck) {
-          setError("Result Checking not yet enabled");
-          throw new Error("result checking not enabled");
-        }
-      } catch {
-        setError("Unable to get session details");
-      }
-    };
+        const sessionRes = await getRequest("/session");
+        const currentSession = sessionRes.data.session;
+        const currentTerm = sessionRes.data.term;
 
-    const fetchResults = async () => {
-      try {
-        const data = await postRequest("/results/get", {
+        if (!sessionRes.data.resultcheck) {
+          setError("Result Checking not yet enabled");
+          return;
+        }
+
+        setSession(currentSession);
+        setTerm(currentTerm);
+
+        const resultsRes = await postRequest("/results/get", {
           regnum,
-          session,
-          term,
+          session: currentSession,
+          term: currentTerm,
         });
-        setResults(data?.data || []);
-        setStudent(data?.student || null);
-        setComment({ tc: data?.tc, pc: data?.pc });
+
+        setResults(resultsRes?.data || []);
+        setStudent(resultsRes?.student || null);
+        setComment({ tc: resultsRes?.tc, pc: resultsRes?.pc });
       } catch (err) {
         console.error("❌ Failed to load results:", err);
-        setError("Error loading results");
+        setError("Unable to fetch results. Please try again.");
       } finally {
         setLoading(false);
       }
     };
 
-    resultCheck().then(fetchResults);
-  }, [regnum, session, term]);
+    resultCheckAndFetch();
+  }, [regnum]);
 
   const handlePrint = () => window.print();
 
