@@ -58,3 +58,29 @@ export const getRequest = async (endpoint: string, options = {}) => {
     throw err;
   }
 };
+
+export const putRequest = async (
+  endpoint: string,
+  data: unknown,
+  options = {}
+) => {
+  const isForm = typeof FormData !== "undefined" && data instanceof FormData;
+  const token = getToken();
+  try {
+    const res = await axios.put(`${BASE_URL}${endpoint}`, data, {
+      withCredentials: true,
+      headers: {
+        ...(isForm ? {} : { "Content-Type": "application/json" }),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      ...options,
+    });
+
+    return res.data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw err.response?.data || err.message;
+    }
+    throw err;
+  }
+};

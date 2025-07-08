@@ -123,6 +123,11 @@ export default function Page() {
             text="Change Student/staff Password"
           />
           <Actions
+            href="./admin/updatestudent"
+            icon={<FaPenFancy />}
+            text="Update Student detail"
+          />
+          <Actions
             href="./admin/staffauth"
             icon={<GiAstronautHelmet />}
             text="Staff Authorization"

@@ -49,7 +49,7 @@ export function SignupFormDemo() {
       if (data.user.role === "student") {
         router.push("/account/student");
       } else if (data.user.role === "staff") {
-        router.push("/account/student");
+        router.push("/account/staff");
       } else {
         router.push("/account/admin");
       }

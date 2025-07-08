@@ -45,8 +45,8 @@ export default function AdmissionPage() {
           <ul className="list-none mt-2 space-y-1">
             <li>
               📞{" "}
-              <Link href="tel:+2349035078430" className="underline">
-                +234 903 507 8430
+              <Link href="tel:+2347064369964" className="underline">
+                +234706 436 9964
               </Link>
             </li>
             <li>

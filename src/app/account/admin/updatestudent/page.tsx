@@ -2,16 +2,17 @@
 import React, { useState } from "react";
 import Topbar from "@/src/components/admin/Topbar";
 import { useUserStore } from "@/stores/useUserStore";
-import { postRequest } from "@/src/utils/api";
+import { putRequest } from "@/src/utils/api"; // You need to define this if it's not already
 
-export default function StaffRegistrationPage() {
+export default function UpdateStudentPage() {
   const user = useUserStore((state) => state.user);
 
   const [formData, setFormData] = useState({
+    reg_number: "",
     fullname: "",
     sex: "",
     email: "",
-    image: null,
+    image: null as File | null,
     address: "",
     phone: "",
     parentName: "",
@@ -28,37 +29,39 @@ export default function StaffRegistrationPage() {
     const { name, value, type, files } = e.target as HTMLInputElement;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "file" ? files && files[0] : value,
+      [name]: type === "file" ? files?.[0] ?? null : value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!formData.reg_number) {
+      setError("Please enter the student's registration number.");
+      return;
+    }
+
     const fd = new FormData();
-    fd.append("fullname", formData.fullname);
-    fd.append("sex", formData.sex);
-    fd.append("email", formData.email);
-    fd.append("phone", formData.phone);
-    fd.append("address", formData.address);
-    fd.append("class", formData.class);
-    fd.append("parentName", formData.parentName);
-    fd.append("dateOfBirth", formData.dateOfBirth);
+    if (formData.fullname) fd.append("fullname", formData.fullname);
+    if (formData.sex) fd.append("sex", formData.sex);
+    if (formData.email) fd.append("email", formData.email);
+    if (formData.phone) fd.append("phone", formData.phone);
+    if (formData.address) fd.append("address", formData.address);
+    if (formData.class) fd.append("class", formData.class);
+    if (formData.parentName) fd.append("parentName", formData.parentName);
+    if (formData.dateOfBirth) fd.append("dateOfBirth", formData.dateOfBirth);
     if (formData.image) fd.append("image", formData.image);
 
+    const regParam = formData.reg_number.replace(/\//g, "-");
+
     try {
-      const data = await postRequest("/student", fd); // fd is your FormData
-      console.log("Successful:", data);
-      setSuccess(
-        "Student created successfully with pin " +
-          data.pin +
-          "  and registration number " +
-          data.reg_number +
-          " please save this information for login"
-      );
+      const data = await putRequest(`/student/${regParam}`, fd);
+      console.log("Update successful:", data);
+      setSuccess("Student updated successfully.");
       setError("");
     } catch (err: unknown) {
-      console.error("Submission failed:", err);
+      console.error("Update failed:", err);
+      setSuccess("");
       if (typeof err === "string") {
         setError(err);
       } else if (err instanceof Error) {
@@ -77,7 +80,7 @@ export default function StaffRegistrationPage() {
       />
 
       <div className="min-h-screen p-4 md:w-[60%] mx-auto mt-10">
-        <h1 className="text-xl font-bold mb-6">Register New students</h1>
+        <h1 className="text-xl font-bold mb-6">Update Student</h1>
         {error && (
           <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
             {error}
@@ -94,21 +97,28 @@ export default function StaffRegistrationPage() {
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-20 md:m-0"
         >
           <input
+            name="reg_number"
+            value={formData.reg_number}
+            onChange={handleChange}
+            placeholder="Registration Number (e.g. 2023/JSS1/002)"
+            className="border p-2 rounded md:col-span-2"
+          />
+
+          <input
             name="fullname"
             value={formData.fullname}
             onChange={handleChange}
             placeholder="Full Name"
             className="border p-2 rounded"
-            required
           />
+
           <select
             name="class"
             value={formData.class}
             onChange={handleChange}
             className="border p-2 rounded"
-            required
           >
-            <option value="">Select Gender</option>
+            <option value="">Select Class</option>
             <option value="JSS1">JSS 1</option>
             <option value="JSS2">JSS 2</option>
             <option value="JSS3">JSS 3</option>
@@ -123,7 +133,6 @@ export default function StaffRegistrationPage() {
             onChange={handleChange}
             placeholder="Parent Name"
             className="border p-2 rounded"
-            required
           />
 
           <select
@@ -131,7 +140,6 @@ export default function StaffRegistrationPage() {
             value={formData.sex}
             onChange={handleChange}
             className="border p-2 rounded"
-            required
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -145,7 +153,6 @@ export default function StaffRegistrationPage() {
             onChange={handleChange}
             placeholder="Email"
             className="border p-2 rounded"
-            required
           />
 
           <input
@@ -154,7 +161,6 @@ export default function StaffRegistrationPage() {
             onChange={handleChange}
             placeholder="Parent's Number"
             className="border p-2 rounded"
-            required
           />
 
           <input
@@ -163,7 +169,6 @@ export default function StaffRegistrationPage() {
             onChange={handleChange}
             placeholder="Home Address"
             className="border p-2 rounded"
-            required
           />
 
           <input
@@ -173,7 +178,6 @@ export default function StaffRegistrationPage() {
             type="date"
             placeholder="Date of Birth"
             className="border p-2 rounded"
-            required
           />
 
           <div className="md:col-span-2">
@@ -184,7 +188,6 @@ export default function StaffRegistrationPage() {
               accept="image/*"
               onChange={handleChange}
               className="border p-2 rounded w-full"
-              required
             />
           </div>
 
@@ -192,7 +195,7 @@ export default function StaffRegistrationPage() {
             type="submit"
             className="bg-cta text-white py-2 rounded md:col-span-2 hover:opacity-90"
           >
-            Register Student
+            Update Student
           </button>
         </form>
       </div>

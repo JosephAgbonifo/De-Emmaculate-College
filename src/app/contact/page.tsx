@@ -23,7 +23,7 @@ export default function ContactPage() {
           <h2 className="text-xl font-semibold mt-4">📞 Phone</h2>
           <p>
             <Link href="tel:+2347064369964" className="hover:underline">
-              +234 903 507 8430
+              +234706 436 9964
             </Link>
           </p>
         </div>

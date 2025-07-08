@@ -13,8 +13,8 @@ export default function Footer() {
           <h5 className="text-lg font-bold font-poppins mb-2">📞 Contact Us</h5>
           <p>
             <strong>Phone:</strong>{" "}
-            <a href="tel:+2349035078430" className="hover:underline">
-              +234 903 507 8430
+            <a href="tel:+2347064369964" className="hover:underline">
+              +234706 436 9964
             </a>
           </p>
           <p>
