@@ -48,14 +48,14 @@ export default function StaffNotificationsPage() {
           <li
             key={i}
             className={`${
-              msg.read_status ? "bg-yellow-50 border-l-4 border-yellow-500" : ""
-            }  text-gray-800 p-4 rounded`}
+              msg.read_status ? "" : "bg-yellow-50 border-l-4 border-yellow-500"
+            }  text-gray-800 p-2 mx-5 md:mx-0 md:w-1/5 rounded`}
           >
             {msg.message}
             {msg.read_status ? (
-              <span className="float-end clear-end">NEW</span>
-            ) : (
               ""
+            ) : (
+              <span className="float-end clear-end">NEW</span>
             )}
           </li>
         );

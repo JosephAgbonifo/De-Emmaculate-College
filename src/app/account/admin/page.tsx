@@ -68,19 +68,16 @@ export default function Page() {
         role={user?.role || "unauthorised"}
       />
       {Object.values(notifications).map((msg, i) => {
-        return (
+        return msg.read_status ? (
+          " "
+        ) : (
           <li
             key={i}
             className={`${
               msg.read_status ? "" : "bg-yellow-50 border-l-4 border-yellow-500"
-            }  text-gray-800 p-2 m-10 rounded md:w-50 mx-auto`}
+            }  text-gray-800 p-2 m-10 rounded md:w-1/2 mx-auto`}
           >
             {msg.message}
-            {msg.read_status ? (
-              <span className="float-end clear-end">NEW</span>
-            ) : (
-              ""
-            )}
           </li>
         );
       })}
