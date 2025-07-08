@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams, useParams, useRouter } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 import { getRequest, postRequest } from "@/src/utils/api";
 import { useUserStore } from "@/stores/useUserStore";
 
@@ -12,7 +12,6 @@ type Subject = {
 };
 
 export default function EditSubjectResultPage() {
-  const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
   const user = useUserStore((state) => state.user);
@@ -25,6 +24,7 @@ export default function EditSubjectResultPage() {
   const [exam, setExam] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
@@ -59,8 +59,7 @@ export default function EditSubjectResultPage() {
 
       await postRequest("/results/edit", resultData);
 
-      console.log("Result updated successfully!");
-      router.push("/staff"); // or any page to redirect after success
+      setSuccess("Result updated successfully!");
     } catch (err) {
       console.error(err);
       setError("Failed to update result");
@@ -76,6 +75,7 @@ export default function EditSubjectResultPage() {
       </h1>
 
       <div className="space-y-4 max-w-sm">
+        {success ? <p>{success}</p> : ""}
         <input
           value={ca1}
           onChange={(e) => setCa1(e.target.value)}

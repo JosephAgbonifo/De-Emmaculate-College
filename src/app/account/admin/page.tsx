@@ -1,7 +1,7 @@
 "use client";
 import Topbar from "@/src/components/admin/Topbar";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdNoteAlt } from "react-icons/md";
 import { FaPenFancy, FaLockOpen, FaBell } from "react-icons/fa";
 import { GrOverview } from "react-icons/gr";
@@ -10,11 +10,33 @@ import { GiAstronautHelmet } from "react-icons/gi";
 import { useUserStore } from "@/stores/useUserStore";
 import { getRequest, postRequest } from "@/src/utils/api";
 
+interface Notification {
+  message: string;
+  read_status: number;
+}
+
 export default function Page() {
   const user = useUserStore((state) => state.user);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [result, setResult] = useState("");
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const data = await postRequest("/staff/notifications", {
+          email: "admin",
+        });
+
+        setNotifications(data);
+      } catch (err) {
+        setError("Failed to load notifications: " + err);
+      }
+    };
+
+    if (user?.email) fetchNotifications();
+  }, [user?.email]);
 
   async function toggleresult() {
     try {
@@ -45,7 +67,23 @@ export default function Page() {
         name={user?.fullname || "unauthorised"}
         role={user?.role || "unauthorised"}
       />
-
+      {Object.values(notifications).map((msg, i) => {
+        return (
+          <li
+            key={i}
+            className={`${
+              msg.read_status ? "bg-yellow-50 border-l-4 border-yellow-500" : ""
+            }  text-gray-800 p-4 rounded`}
+          >
+            {msg.message}
+            {msg.read_status ? (
+              <span className="float-end clear-end">NEW</span>
+            ) : (
+              ""
+            )}
+          </li>
+        );
+      })}
       <div className="min-h-screen">
         <div className="md:w-[70%] w-full p-10  m-auto mt-10 grid md:grid-cols-3 gap-10 grid-cols-2">
           <Actions
@@ -93,9 +131,14 @@ export default function Page() {
             text="Staff Authorization"
           />
           <Actions
-            href="/staffreg"
+            href="./admin/notice"
             icon={<FaBell />}
-            text="Send Notification .."
+            text="Send Notification"
+          />
+          <Actions
+            href="./admin/notifications"
+            icon={<FaBell />}
+            text="View all messages"
           />
         </div>
         {result ? (

@@ -1,33 +1,33 @@
 "use client";
 import React, { useState } from "react";
 import { postRequest } from "@/src/utils/api";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function SendNoticePage() {
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const user = useUserStore((state) => state.user);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email || !message) {
-      setError("Please fill in both fields");
-      return;
-    }
 
     try {
-      const response = await postRequest("/admin/notice", {
-        email,
-        password: message, // weird, but you said password should carry the message
+      if (user?.role !== "admin") {
+        setError("You're not authorised to do this");
+        return;
+      }
+      const res = await postRequest("/admin/notice", {
+        receiver_email: "admin",
+        sender_email: user?.email,
+        message: message, // again, assuming backend expects this
       });
-
-      console.log("Notice sent:", response);
+      console.log("Sent:", res);
       setSuccess("Notice sent successfully");
-      setError("");
-      setEmail("");
       setMessage("");
-    } catch (err: unknown) {
-      console.error("Error sending notice:", err);
+      setError("");
+    } catch (err) {
+      console.error("Failed to send:", err);
       if (typeof err === "string") {
         setError(err);
       } else if (err instanceof Error) {
@@ -39,8 +39,8 @@ export default function SendNoticePage() {
   };
 
   return (
-    <div className="min-h-screen p-6 max-w-xl mx-auto mt-20">
-      <h1 className="text-2xl font-bold mb-6">Send Notice to Staff</h1>
+    <div className="min-h-screen p-6 max-w-2xl mx-auto pt-20">
+      <h1 className="text-2xl font-bold mb-6">Send Notice to Admin</h1>
 
       {error && (
         <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>
@@ -51,23 +51,17 @@ export default function SendNoticePage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="email"
-          placeholder="Staff Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        />
-
-        <textarea
-          placeholder="Type your message here..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="w-full border p-2 rounded min-h-[150px]"
-          required
-        />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block mb-2 font-medium">Message</label>
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Enter your message..."
+            className="w-full border p-2 rounded min-h-[120px]"
+            required
+          />
+        </div>
 
         <button
           type="submit"

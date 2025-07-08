@@ -77,7 +77,7 @@ export default function StaffRegistrationPage() {
       />
 
       <div className="min-h-screen p-4 md:w-[60%] mx-auto mt-10">
-        <h1 className="text-xl font-bold mb-6">Register New Staff</h1>
+        <h1 className="text-xl font-bold mb-6">Register New students</h1>
         {error && (
           <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
             {error}

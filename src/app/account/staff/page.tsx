@@ -77,11 +77,11 @@ export default function StaffPage() {
             text="Edit Result"
           />
           <StaffMenu
-            href={user?.status === "1" ? "./notifications" : "#"}
+            href={user?.status === "1" ? "./staff/notifications" : "#"}
             text="Notifications"
           />
           <StaffMenu
-            href={user?.status === "1" ? "./msg" : "#"}
+            href={user?.status === "1" ? "./staff/notice" : "#"}
             text="Message Admin"
           />
         </div>

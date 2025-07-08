@@ -45,11 +45,11 @@ export default function StaffAuthPage() {
       <p className="text-base md:mb-20 mb-10">
         Manage staff authorization settings here.
       </p>
-      <div className="m-5">
+      <div className="md:m-5">
         {staffs.map((staff: Staff) => (
           <div
             key={staff.id}
-            className="grid grid-cols-6 gap-4 p-2 text-xs md:w-1/2 m-auto"
+            className="grid grid-cols-3 border-y-2 border-cta md:border-y-0 md:grid-cols-6 gap-4 p-2 text-xs md:w-1/2 m-auto"
           >
             <div className="col-span-1">{staff.id}</div>
             <div className="col-span-1">{staff.class}</div>

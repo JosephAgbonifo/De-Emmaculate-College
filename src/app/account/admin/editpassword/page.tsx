@@ -4,7 +4,7 @@ import { useUserStore } from "@/stores/useUserStore";
 import { postRequest } from "@/src/utils/api";
 
 export default function EditPassword() {
-  const [choice, setChoice] = useState("");
+  const [choice, setChoice] = useState("staff");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -72,7 +72,10 @@ export default function EditPassword() {
             </div>
           </div>
           {error ? error : success ? success : ""}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col md:w-2/4 w-3/4 mx-auto mt-10 gap-10"
+          >
             {choice === "staff" ? (
               <input
                 name="type"
@@ -89,7 +92,7 @@ export default function EditPassword() {
                 type="text"
                 value={formData.type}
                 onChange={handleChange}
-                placeholder="Email"
+                placeholder="Reg Number"
                 className="border p-2 rounded"
                 required
               />

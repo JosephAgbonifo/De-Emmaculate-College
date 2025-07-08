@@ -1,7 +1,7 @@
 // src/utils/api.ts
 import axios from "axios";
 
-const BASE_URL = process.env.BASE_URL || "https://emmaculatecollege.com.ng/api";
+const BASE_URL = process.env.BASE_URL || "http://localhost:8765/api";
 
 // Inline token getter for client-side
 const getToken = (): string | null => {
@@ -19,7 +19,6 @@ export const postRequest = async (
 ) => {
   const isForm = typeof FormData !== "undefined" && data instanceof FormData;
   const token = getToken();
-  console.log("token", token);
   try {
     const res = await axios.post(`${BASE_URL}${endpoint}`, data, {
       withCredentials: true,
@@ -41,7 +40,6 @@ export const postRequest = async (
 
 export const getRequest = async (endpoint: string, options = {}) => {
   const token = getToken();
-  console.log("token", token);
   try {
     const res = await axios.get(`${BASE_URL}${endpoint}`, {
       withCredentials: true,
