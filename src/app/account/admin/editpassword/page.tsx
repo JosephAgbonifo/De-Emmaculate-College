@@ -11,6 +11,7 @@ export default function EditPassword() {
     type: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -23,6 +24,7 @@ export default function EditPassword() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
     try {
       const data = await postRequest("/admin/passwordchange", {
@@ -36,6 +38,7 @@ export default function EditPassword() {
         password: "",
       });
       setError("");
+      setLoading(true);
     } catch {
       console.error(
         "password could not be change, confirm email/reg number is correct"
@@ -44,6 +47,7 @@ export default function EditPassword() {
       setError(
         "password could not be change, confirm email/reg number is correct"
       );
+      setLoading(true);
     }
   };
 
@@ -111,7 +115,7 @@ export default function EditPassword() {
               type="submit"
               className="bg-cta text-white py-2 rounded md:col-span-2 hover:opacity-90"
             >
-              Change Password
+              {loading ? "...loading" : "Change Password"}
             </button>
           </form>
         </div>

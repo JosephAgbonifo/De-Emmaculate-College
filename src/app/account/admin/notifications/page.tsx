@@ -13,6 +13,7 @@ export default function StaffNotificationsPage() {
   const user = useUserStore((state) => state.user);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -20,10 +21,12 @@ export default function StaffNotificationsPage() {
         const data = await postRequest("/staff/notifications", {
           email: "admin",
         });
+        setLoading(false);
 
         setNotifications(data);
       } catch (err) {
         setError("Failed to load notifications: " + err);
+        setLoading(false);
       }
     };
 
@@ -43,6 +46,7 @@ export default function StaffNotificationsPage() {
         <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>
       )}
 
+      {loading ? "...loading" : ""}
       {Object.values(notifications).map((msg, i) => {
         return (
           <li

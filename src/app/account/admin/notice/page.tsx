@@ -11,6 +11,7 @@ export default function SendNoticePage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(true);
   const user = useUserStore((state) => state.user);
 
   // Fetch staff on load
@@ -19,9 +20,11 @@ export default function SendNoticePage() {
       try {
         const data = await postRequest("/staff/all", {});
         setStaffList(data.data || []);
+        setLoading(false);
       } catch (err) {
         console.error("Failed to load staff:", err);
         setError("Failed to load staff list");
+        setLoading(false);
       }
     };
 
@@ -35,6 +38,7 @@ export default function SendNoticePage() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
 
     if (!selectedEmails.length || !message.trim()) {
@@ -47,18 +51,19 @@ export default function SendNoticePage() {
     try {
       if (user?.role !== "admin") {
         setError("You're not authorised to do this");
+        setLoading(false);
         return;
       }
-      const res = await postRequest("/admin/notice", {
+      await postRequest("/admin/notice", {
         receiver_email: emailsCSV,
         sender_email: user?.email,
         message: message, // again, assuming backend expects this
       });
-      console.log("Sent:", res);
       setSuccess("Notice sent successfully");
       setSelectedEmails([]);
       setMessage("");
       setError("");
+      setLoading(false);
     } catch (err) {
       console.error("Failed to send:", err);
       if (typeof err === "string") {
@@ -68,6 +73,7 @@ export default function SendNoticePage() {
       } else {
         setError("Unknown error");
       }
+      setLoading(false);
     }
   };
 
@@ -127,7 +133,7 @@ export default function SendNoticePage() {
           type="submit"
           className="bg-blue-600 text-white py-2 px-4 rounded hover:opacity-90"
         >
-          Send Notice
+          {loading ? "...loading" : "Send Notification"}
         </button>
       </form>
     </div>

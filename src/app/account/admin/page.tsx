@@ -72,8 +72,8 @@ export default function Page() {
           <li
             key={i}
             className={`${
-              msg.read_status ? "bg-yellow-50 border-l-4 border-yellow-500" : ""
-            }  text-gray-800 p-4 rounded`}
+              msg.read_status ? "" : "bg-yellow-50 border-l-4 border-yellow-500"
+            }  text-gray-800 p-2 m-10 rounded md:w-50 mx-auto`}
           >
             {msg.message}
             {msg.read_status ? (

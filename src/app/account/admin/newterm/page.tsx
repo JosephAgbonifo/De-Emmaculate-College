@@ -13,15 +13,18 @@ export default function StaffRegistrationPage() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const data = await postRequest("/admin/session", formData); // fd is your FormData
       setSuccess(data.message);
       setError("");
+      setLoading(false);
     } catch (err: unknown) {
+      setLoading(false);
       if (typeof err === "string") {
         setError(err);
       } else if (err instanceof Error) {
@@ -92,7 +95,7 @@ export default function StaffRegistrationPage() {
             type="submit"
             className="bg-cta text-white py-2 rounded md:col-span-2 hover:opacity-90"
           >
-            Update Term / Session
+            {loading ? "...loading" : "Update Term / Session"}
           </button>
         </form>
       </div>
