@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-text text-bluebg p-10 no-print">
+    <footer className="bg-text text-[#e0fbfc] p-10 no-print">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
         <div>
           <h5 className="text-lg font-bold font-poppins mb-2">🏫 Address</h5>
@@ -36,7 +36,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="#about" className="hover:underline">
+              <Link href="/#about" className="hover:underline">
                 About
               </Link>
             </li>
@@ -54,7 +54,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-10 flex flex-col md:flex-row justify-between items-center text-sm text-bluebg border-t border-bluebg/30 pt-6">
+      <div className="mt-10 flex flex-col md:flex-row justify-between items-center text-sm text-[#e0fbfc] border-t border-[#e0fbfc]/30 pt-6">
         <p>
           &copy; {new Date().getFullYear()} Emmaculate College. All rights
           reserved.
