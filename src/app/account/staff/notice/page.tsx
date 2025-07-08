@@ -13,16 +13,11 @@ export default function SendNoticePage() {
     e.preventDefault();
 
     try {
-      if (user?.role !== "admin") {
-        setError("You're not authorised to do this");
-        return;
-      }
       const res = await postRequest("/admin/notice", {
         receiver_email: "admin",
         sender_email: user?.email,
         message: message, // again, assuming backend expects this
       });
-      console.log("Sent:", res);
       setSuccess("Notice sent successfully");
       setMessage("");
       setError("");
