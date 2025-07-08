@@ -1,16 +1,15 @@
-"use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useUserStore } from "@/stores/useUserStore";
+import SignOut from "./main";
 
-export default function SignOut() {
-  const router = useRouter();
+export const metadata = {
+  title: "Signin to Emmaculate",
+  description: "Emmaculate College app",
+  robots: "noindex, nofollow",
+};
 
-  useEffect(() => {
-    // Clear the user from Zustand and redirect
-    useUserStore.getState().clearUser();
-    router.push("/signin");
-  }, [router]);
-
-  return null; // No UI, just logic
+export default function Signout() {
+  return (
+    <>
+      <SignOut />
+    </>
+  );
 }

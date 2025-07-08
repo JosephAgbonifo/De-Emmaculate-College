@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { use } from "react"; // Used to unwrap the `params` promise passed to server component
-import { useSearchParams, useRouter } from "next/navigation";
-import { postRequest } from "@/src/utils/api";
+import { useRouter } from "next/navigation";
+import { getRequest, postRequest } from "@/src/utils/api";
 import Image from "next/image";
 import { FaEnvelope, FaMapPin, FaPhone } from "react-icons/fa";
 
@@ -81,11 +81,11 @@ interface Student {
 
 export default function ResultsPage({ params }: ResultsPageProps) {
   const { regnum } = use(params);
-  const searchParams = useSearchParams();
   const router = useRouter();
 
-  const session = searchParams.get("session");
-  const term = searchParams.get("term");
+  const [session, setSession] = useState("");
+  const [term, setTerm] = useState("");
+  const [check, setCheck] = useState("");
 
   const [results, setResults] = useState<Result[]>([]);
   const [student, setStudent] = useState<Student | null>(null);
@@ -101,6 +101,22 @@ export default function ResultsPage({ params }: ResultsPageProps) {
       setLoading(false);
       return;
     }
+
+    const resultCheck = async () => {
+      try {
+        const data = await getRequest("/session");
+        setSession(data.data.session);
+        setTerm(data.data.term);
+        setCheck(data.data.resultcheck);
+        if (!check) {
+          setError("Result Checking not yet enabled");
+          return;
+        }
+      } catch {
+        setError("Unable to get session details");
+        return;
+      }
+    };
 
     const fetchResults = async () => {
       try {
@@ -119,9 +135,9 @@ export default function ResultsPage({ params }: ResultsPageProps) {
         setLoading(false);
       }
     };
-
+    resultCheck();
     fetchResults();
-  }, [regnum, session, term, router]);
+  }, [regnum, session, term, router, check]);
 
   const handlePrint = () => {
     window.print();

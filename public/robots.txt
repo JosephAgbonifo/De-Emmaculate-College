@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://emmaculatecollege.com.ng
+
+# Sitemaps
+Sitemap: https://emmaculatecollege.com.ng/sitemap.xml

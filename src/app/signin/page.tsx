@@ -1,5 +1,10 @@
 import { SignupFormDemo } from "@/src/components/signup/Form";
 import Image from "next/image";
+export const metadata = {
+  title: "Signin to Emmaculate",
+  description: "Emmaculate College app",
+  robots: "noindex, nofollow",
+};
 
 export default function Signin() {
   return (
