@@ -3,7 +3,9 @@ import Link from "next/link";
 export default function AdmissionPage() {
   return (
     <main className="p-10 max-w-4xl mx-auto text-bluebg">
-      <h1 className="text-3xl font-bold mb-6">Admission Information</h1>
+      <h1 className="text-3xl font-bold mb-6 md:pt-20">
+        Admission Information
+      </h1>
 
       <section className="space-y-6">
         <div>

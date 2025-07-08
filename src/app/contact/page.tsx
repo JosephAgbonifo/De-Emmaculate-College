@@ -3,7 +3,9 @@ import Link from "next/link";
 export default function ContactPage() {
   return (
     <main className="p-10 max-w-3xl mx-auto text-bluebg">
-      <h1 className="text-3xl font-bold mb-6">Contact Emmaculate College</h1>
+      <h1 className="text-3xl font-bold mb-6 md:pt-20">
+        Contact Emmaculate College
+      </h1>
 
       <section className="space-y-4">
         <p>
