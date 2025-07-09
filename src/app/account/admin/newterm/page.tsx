@@ -67,7 +67,6 @@ export default function StaffRegistrationPage() {
             }}
             placeholder="Session"
             className="border p-2 rounded hidden"
-            required
           />
 
           <select
@@ -77,7 +76,6 @@ export default function StaffRegistrationPage() {
               setFormData({ ...formData, term: e.target.value });
             }}
             className="border p-2 rounded hidden"
-            required
           >
             <option value="">Select Term</option>
             <option value="1st">1st Term</option>
